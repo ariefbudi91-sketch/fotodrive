@@ -55,6 +55,11 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/swGallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan juga ke galeri HP (Pictures/FotoDrive)" />
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/swWifi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,8 +88,13 @@
             android:layout_height="wrap_content"
             android:text="Upload juga foto lama yang sudah ada" />
 
-        <!-- 3. Watermark -->
-        <TextView style="@style/Section" android:text="3. Watermark" />
+        <!-- 3. Tone & Watermark -->
+        <TextView style="@style/Section" android:text="3. Tone &amp; watermark" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perbaikan tone otomatis (kecerahan, kontras, warna)" />
+        <Spinner
+            android:id="@+id/spTone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

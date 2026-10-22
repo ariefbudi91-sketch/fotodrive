@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etDriveLink: EditText
     private lateinit var tvLinkStatus: TextView
     private lateinit var swWifi: MaterialSwitch
+    private lateinit var swGallery: MaterialSwitch
+    private lateinit var spTone: Spinner
     private lateinit var tvFolder: TextView
     private lateinit var swExisting: MaterialSwitch
     private lateinit var etText: EditText
@@ -100,6 +102,8 @@ class MainActivity : AppCompatActivity() {
         etDriveLink = findViewById(R.id.etDriveLink)
         tvLinkStatus = findViewById(R.id.tvLinkStatus)
         swWifi = findViewById(R.id.swWifi)
+        swGallery = findViewById(R.id.swGallery)
+        spTone = findViewById(R.id.spTone)
         tvFolder = findViewById(R.id.tvFolder)
         swExisting = findViewById(R.id.swExisting)
         etText = findViewById(R.id.etText)
@@ -115,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         btnStart = findViewById(R.id.btnStart)
         tvLog = findViewById(R.id.tvLog)
 
+        spTone.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ToneEnhancer.LEVELS)
         spPosition.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, Watermarker.POSITIONS)
         spMaxSide.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, maxSideLabels)
 
@@ -143,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     /** Kamera dicolok → langsung mulai memantau bila sudah login. */
     private fun handleUsbIntent(intent: Intent?) {
-        if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED && p.authorized && !p.running) {
+        if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED && (p.authorized || p.saveToGallery) && !p.running) {
             saveSettings()
             CaptureService.start(this)
         }
@@ -164,6 +169,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadSettings() {
         etDriveFolder.setText(p.driveFolderName)
         swWifi.isChecked = p.wifiOnly
+        swGallery.isChecked = p.saveToGallery
+        spTone.setSelection(p.toneLevel)
         swExisting.isChecked = p.uploadExisting
         etText.setText(p.watermarkText)
         swDate.isChecked = p.showDate
@@ -187,6 +194,8 @@ class MainActivity : AppCompatActivity() {
             if (p.needsFullScope && !p.authFullScope) p.authorized = false
         }
         p.wifiOnly = swWifi.isChecked
+        p.saveToGallery = swGallery.isChecked
+        p.toneLevel = spTone.selectedItemPosition
         p.uploadExisting = swExisting.isChecked
         p.watermarkText = etText.text.toString()
         p.showDate = swDate.isChecked
@@ -281,7 +290,8 @@ class MainActivity : AppCompatActivity() {
         if (p.running) {
             CaptureService.stop(this)
         } else {
-            if (!p.authorized) { toast("Login Google Drive dulu"); return }
+            if (!p.authorized && !p.saveToGallery) { toast("Login Google Drive dulu"); return }
+            if (!p.authorized) toast("Belum login Drive: foto hanya disimpan ke galeri")
             if (p.driveFolderLink.isNotBlank() && p.driveLinkId == null) { toast("Link folder Drive tidak valid"); return }
             if (p.watermarkText.isBlank() && p.logoUri == null && !p.showDate) {
                 toast("Isi teks watermark atau pilih logo"); return

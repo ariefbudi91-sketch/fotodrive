@@ -43,9 +43,25 @@ class UploadWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx
                 src.delete()
             }
 
+            // Salinan ke galeri: Pictures/FotoDrive (sekali saja per foto)
+            val galleryMark = File(outDir, src.name + ".gallery")
+            if (p.saveToGallery && !galleryMark.exists()) {
+                if (Gallery.save(ctx, out, name)) galleryMark.createNewFile()
+            }
+
+            if (!p.authorized) {
+                // Tanpa login: foto tetap tersimpan di galeri (bisa diupload aplikasi sinkron lain)
+                if (galleryMark.exists()) {
+                    out.delete(); galleryMark.delete()
+                    p.log("✓ $name diproses → Pictures/FotoDrive")
+                    return@withContext Result.success()
+                }
+                p.log("Belum login Google Drive. Buka aplikasi lalu tekan Login.")
+                return@withContext Result.retry()
+            }
             val token = GoogleAuth.tokenSilently(ctx)
             if (token == null) {
-                p.log("Belum login Google. Buka aplikasi lalu tekan Login.")
+                p.log("Login Google kedaluwarsa. Buka aplikasi lalu tekan Login.")
                 return@withContext Result.retry()
             }
             val drive = DriveUploader(token)
@@ -66,8 +82,8 @@ class UploadWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx
                     p.log("Folder dari link tidak ditemukan / akun tidak punya akses edit")
                 throw e
             }
-            out.delete()
-            p.log("✓ $name terupload")
+            out.delete(); galleryMark.delete()
+            p.log("✓ $name terupload ke Drive")
             Result.success()
         } catch (e: OutOfMemoryError) {
             p.log("✗ $name: memori HP tidak cukup. Kecilkan 'Ukuran maksimal'.")
@@ -86,7 +102,13 @@ class UploadWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx
         fun enqueue(ctx: Context, file: File, displayName: String) {
             val p = Prefs(ctx)
             val constraints = Constraints.Builder()
-                .setRequiredNetworkType(if (p.wifiOnly) NetworkType.UNMETERED else NetworkType.CONNECTED)
+                .setRequiredNetworkType(
+                    when {
+                        !p.authorized -> NetworkType.NOT_REQUIRED
+                        p.wifiOnly -> NetworkType.UNMETERED
+                        else -> NetworkType.CONNECTED
+                    }
+                )
                 .build()
             val req = OneTimeWorkRequestBuilder<UploadWorker>()
                 .setInputData(workDataOf(KEY_PATH to file.absolutePath, KEY_NAME to displayName))

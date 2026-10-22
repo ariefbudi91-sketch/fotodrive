@@ -31,7 +31,11 @@ class Prefs(context: Context) {
     var showDate: Boolean get() = bool("showDate", true); set(v) = putBool("showDate", v)
     var logoUri: String? get() = str("logoUri", null); set(v) = putStr("logoUri", v)
 
+    // Perbaikan tone (0 mati, 1 ringan, 2 sedang, 3 kuat)
+    var toneLevel: Int get() = int("toneLevel", 2); set(v) = putInt("toneLevel", v)
+
     // Output & upload
+    var saveToGallery: Boolean get() = bool("saveGallery", true); set(v) = putBool("saveGallery", v)
     var maxSide: Int get() = int("maxSide", 0); set(v) = putInt("maxSide", v)
     var jpegQuality: Int get() = int("jpegQuality", 92); set(v) = putInt("jpegQuality", v)
     var driveFolderName: String get() = str("driveFolder", "Foto Kamera")!!; set(v) = putStr("driveFolder", v)

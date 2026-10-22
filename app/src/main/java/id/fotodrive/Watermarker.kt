@@ -77,6 +77,7 @@ object Watermarker {
             bmp.recycle(); bmp = copy
         }
 
+        ToneEnhancer.apply(bmp, p.toneLevel)
         drawWatermark(ctx, Canvas(bmp), bmp.width, bmp.height, p, exif)
 
         FileOutputStream(dst).use { bmp.compress(Bitmap.CompressFormat.JPEG, p.jpegQuality, it) }

@@ -2,8 +2,8 @@
 
 Aplikasi Android (Kotlin) yang:
 1. **Mengambil foto dari kamera** — lewat kabel **USB OTG** (protokol PTP, langsung dari kartu memori kamera) **atau** dari folder tempat aplikasi Wi-Fi kamera menyimpan foto (Canon Camera Connect, Nikon SnapBridge, Sony Creators' App/Imaging Edge, Fujifilm XApp, dll.).
-2. **Memberi watermark** — teks bebas (bisa beberapa baris), tanggal & jam pemotretan dari EXIF, logo PNG transparan, 6 pilihan posisi, ukuran, dan kepekatan. Data EXIF penting (kamera, lensa, ISO, aperture, shutter, GPS) tetap dipertahankan.
-3. **Upload otomatis ke Google Drive** — ke folder pilihan Anda, dengan antrean yang tahan internet putus dan HP restart (WorkManager), opsi Wi-Fi saja.
+2. **Memperbaiki tone otomatis** (kecerahan, kontras, warna — tingkat Mati/Ringan/Sedang/Kuat) lalu **memberi watermark** — teks bebas (bisa beberapa baris), tanggal & jam pemotretan dari EXIF, logo PNG transparan, 6 pilihan posisi, ukuran, dan kepekatan. Data EXIF penting (kamera, lensa, ISO, aperture, shutter, GPS) tetap dipertahankan.
+3. **Menyimpan salinan ke galeri** (Pictures/FotoDrive) dan **upload otomatis ke Google Drive** — ke folder pilihan Anda, dengan antrean yang tahan internet putus dan HP restart (WorkManager), opsi Wi-Fi saja.
 
 ## Langkah 1 — Siapkan Google Cloud (sekali saja, ±10 menit)
 1. Buka https://console.cloud.google.com → buat project baru (mis. "FotoDrive").
