@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 1. Akun Google -->
+        <TextView style="@style/Section" android:text="1. Google Drive" />
+        <TextView
+            android:id="@+id/tvAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Belum login" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login Google Drive" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSwitch"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ganti akun Google" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Link folder Google Drive (opsional)"
+            app:helperText="Tempel link folder yang sudah ada, mis. drive.google.com/drive/folders/… Kosongkan untuk folder baru di bawah.">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDriveLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tvLinkStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilFolderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama folder baru di Google Drive">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDriveFolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/swWifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload hanya lewat Wi-Fi" />
+
+        <!-- 2. Sumber foto -->
+        <TextView style="@style/Section" android:text="2. Sumber foto" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Kabel USB OTG: colok kamera (mode PTP/MTP), terdeteksi otomatis.\n• Wi-Fi: pilih folder tempat aplikasi kamera (Canon Camera Connect, SnapBridge, Imaging Edge, Fujifilm XApp, dll.) menyimpan foto." />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFolder"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih folder foto (opsional)" />
+        <TextView
+            android:id="@+id/tvFolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/swExisting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload juga foto lama yang sudah ada" />
+
+        <!-- 3. Watermark -->
+        <TextView style="@style/Section" android:text="3. Watermark" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Teks watermark (boleh beberapa baris)">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/swDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tambahkan tanggal &amp; jam pemotretan" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Posisi" />
+        <Spinner
+            android:id="@+id/spPosition"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+        <TextView android:id="@+id/tvSize" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" />
+        <SeekBar android:id="@+id/sbSize" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="9" />
+        <TextView android:id="@+id/tvOpacity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" />
+        <SeekBar android:id="@+id/sbOpacity" android:layout_width="match_parent" android:layout_height="wrap_content" android:max="90" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogo"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pilih logo (PNG)" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearLogo"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hapus logo" />
+        </LinearLayout>
+        <TextView android:id="@+id/tvLogo" android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Ukuran maksimal foto hasil" />
+        <Spinner
+            android:id="@+id/spMaxSide"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPreview"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Coba watermark pada satu foto" />
+        <ImageView
+            android:id="@+id/ivPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="Preview watermark" />
+
+        <!-- 4. Jalankan -->
+        <TextView style="@style/Section" android:text="4. Jalankan" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:textSize="18sp"
+            android:text="Mulai" />
+
+        <TextView style="@style/Section" android:text="Aktivitas" />
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
+    </LinearLayout>
+</ScrollView>

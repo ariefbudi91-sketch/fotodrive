@@ -1,0 +1,34 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+      - name: Build
+        run: gradle :app:assembleRelease --no-daemon
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk FotoDrive.apk
+      # Link unduhan langsung (mudah dibuka dari HP): tab Releases di repository
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: FotoDrive build ${{ github.run_number }}
+          files: FotoDrive.apk
+          make_latest: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FotoDrive-apk
+          path: FotoDrive.apk
